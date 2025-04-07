@@ -1,4 +1,4 @@
-PDF Merging app created by Bryan Cho
+PDF Merging Program created by Bryan Cho
 
 
 This program allows users to merge two existing PDF files by simply 
