@@ -9,3 +9,8 @@ This program allows users to merge two existing PDF files by simply
 5) Then press 'Merge PDFs' and the merged PDF will be automatically downloaded onto Chrome
 
 Unfortunately, this is not a web development, so to use this code, please download these files onto a coding application (GitHub makes this very easy) and run it on your local host. 
+
+
+Make sure to install PyPDF2, reportlab, and flask
+
+You can look up how to get started with installing necessary libraries
