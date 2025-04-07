@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Merger</title>
+</head>
+<body>
+    <h1>Merge Two PDFs</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label>First PDF:</label>
+        <input type="file" name="pdf1" required><br><br>
+
+        <label>Second PDF:</label>
+        <input type="file" name="pdf2" required><br><br>
+
+        <label>Insert second PDF after page __ in first PDF (default: appends):</label>
+        <input type="number" name="insert_at" min="0"><br><br>
+
+        <label>
+            <input type="checkbox" name="add_page_numbers">
+            Add page numbers (bottom left only)
+        </label><br><br>
+
+        <button type="submit">Merge PDFs</button>
+    </form>
+</body>
+</html>

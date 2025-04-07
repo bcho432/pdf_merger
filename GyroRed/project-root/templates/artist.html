@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ artist_name }}</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Basic CSS -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #34495e;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #3498db;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{ artist_name }}</h1>
+    <p>Followers: {{ artist_followers }}</p>
+    <p>Popularity: {{ popularity_message }}</p>
+
+    <h2>Top Tracks:</h2>
+    <!-- Popularity Scale Message -->
+    <p>0 = least popular; 100 = most popular</p>
+    <ul>
+        {% for track in top_tracks %}
+        <li>{{ track.name }} (Popularity: {{ track.popularity }})</li>
+        {% endfor %}
+    </ul>
+
+
+    <a href="/">Search again</a>
+</body>
+
+</html>

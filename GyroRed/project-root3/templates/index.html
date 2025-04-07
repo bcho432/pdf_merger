@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spotify Song Player</title>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Spotify Song Player</h1>
+    <p>Say for a song title, then say 'by', followed by saying the artist whom made the song.</p>
+    <form id="song-form" action="{{ url_for('play') }}" method="POST">
+        <div>
+            <input type="text" id="combined_input" name="combined_input" placeholder="Song Title by Artist Name" required>
+            <button type="button" id="microphone-button" onclick="startRecognition('combined_input')">
+                <i class="fas fa-microphone fa-2x"></i> <!-- Font Awesome microphone icon -->
+            </button>
+        </div>
+        <button type="submit">Play</button>
+    </form>
+
+    <h2>Seek to a specific time</h2>
+    <p>Search for a specific time of a song (best if you say the minute, even if it's 0, then 'colon' then the second(s)).</p>
+    <p>If you want a second that's between 0-9, say 'zero' then the number</p>
+    <p>If you want to skip the song, say a time larger than the duration of the song</p>
+    <form id="seek-form" action="{{ url_for('seek') }}" method="POST">
+        <input type="text" id="seek_time" name="seek_time" placeholder="Seek Time (MM:SS)" required>
+        <button type="button" id="seek-microphone-button" onclick="startSeekRecognition('seek_time')">
+            <i class="fas fa-microphone"></i> <!-- Font Awesome microphone icon -->
+        </button>
+        <button type="submit">Seek</button>
+    </form>
+
+    <script>
+        // Function to handle speech recognition for song
+        function startRecognition(inputId) {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Your browser does not support speech recognition. Please use a compatible browser.');
+                return;
+            }
+    
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+    
+            recognition.onstart = function() {
+                console.log('Speech recognition started.');
+            };
+    
+            recognition.onend = function() {
+                console.log('Speech recognition ended.');
+            };
+    
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript.trim();
+                const triggerWord = 'play';
+                const triggerWordLower = triggerWord.toLowerCase();
+    
+                if (result.toLowerCase().endsWith(triggerWordLower)) {
+                    const songDetails = result.slice(0, -triggerWordLower.length).trim();
+                    document.getElementById(inputId).value = songDetails;
+                    document.getElementById('song-form').submit();
+                } else {
+                    document.getElementById(inputId).value = result;
+                }
+            };
+    
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+            };
+    
+            recognition.start();
+        }
+    
+        // Function to handle speech recognition for seeking
+        function startSeekRecognition(inputId) {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert('Your browser does not support speech recognition. Please use a compatible browser.');
+                return;
+            }
+    
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = 'en-US';
+    
+            recognition.onstart = function() {
+                console.log('Speech recognition started.');
+            };
+    
+            recognition.onend = function() {
+                console.log('Speech recognition ended.');
+            };
+    
+            recognition.onresult = function(event) {
+                const result = event.results[0][0].transcript.trim();
+                // Here we assume the result is in MM:SS format
+                document.getElementById(inputId).value = result;
+                document.getElementById('seek-form').submit();
+            };
+    
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error:', event.error);
+            };
+    
+            recognition.start();
+        }
+
+        // Add event listener for the spacebar key press
+        document.addEventListener('keydown', function(event) {
+            // Check if the Space key is pressed and the input field is not focused
+            if (event.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
+                event.preventDefault(); // Prevent the default spacebar action (scrolling, etc.)
+                document.getElementById('microphone-button').click(); // Trigger the microphone button click
+            }
+        });
+
+        // Add event listener for the Shift key press
+        document.addEventListener('keydown', function(event) {
+            // Check if the Shift key is pressed and the input field is not focused
+            if (event.key === 'Shift' && document.activeElement.tagName !== 'INPUT') {
+                event.preventDefault(); // Prevent the default Shift key action
+                document.getElementById('seek-microphone-button').click(); // Trigger the seek microphone button click
+            }
+        });
+    </script>
+</body>
+</html>

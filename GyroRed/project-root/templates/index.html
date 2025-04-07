@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Artist Search</title>
+</head>
+<body>
+    <h1>Spotify Artist Search</h1>
+    <p style="font-size: 0.9em; color: gray;">Search for your favorite artist or get the top 10 tracks right now with 'top 10 tracks'!</p> <!-- Small message added here -->
+    <form method="POST">
+        <input type="text" name="artist_name" placeholder="Enter Here" required>
+        <button type="submit">Search</button>
+    </form>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+</body>
+</html>
